@@ -1,0 +1,21 @@
+ml_billetterie_homepage:
+    path:     /Billetterie
+    defaults: { _controller: MLBilletterieBundle:Billetterie:index }
+    
+ml_billetterie_info:
+    path:     /info
+    defaults: { _controller: MLBilletterieBundle:Billetterie:info }
+    
+ml_billetterie_dispo:
+    path:     /dispo
+    defaults: { _controller: MLBilletterieBundle:Billetterie:dispo }
+
+ml_billetterie_confirmation:
+    path:     /confirmation/{id}
+    defaults: { _controller: MLBilletterieBundle:Billetterie:confirmation }
+    requirements:
+            id: "[a-zA-Z0-9]+"
+
+ml_billetterie_paiement:
+    path:     /paiement
+    defaults: { _controller: MLBilletterieBundle:Billetterie:paiement }

@@ -1,0 +1,125 @@
+.navbar-inverse{
+  background-color: #222222;
+  width:100%;
+}
+.navbar-inverse .navbar-brand{
+  color: white;
+}
+
+body {
+	background:url("../images/louvre.jpg");
+	background-attachment:fixed;
+	background-repeat:no-repeat;
+	background-position:center center;
+	background-size: cover;
+}
+
+.container {
+	background-color:#eeeeee;
+	border-radius:5px;
+	padding-right:20px;
+	padding-left:10px;
+}
+
+a{
+	color:#222;
+}
+.text-primary{
+	color:#222;
+}
+.btn-primary {
+    color: white;
+    background-color: #3c763dd9;
+    border-color: #d6e9c6;
+	border-radius:5px;
+}
+
+.bg-primary{
+	background-color:#f0ad4e;
+}
+
+.btn-primary.focus{
+	background-color:##3071a9c9;
+	border-color:##3071a9c9;
+	border-radius:5px;
+}
+.badge {
+	color: #222;
+}
+.btn-link{
+	color:#222;
+}
+.dropdown-menu>li>a:hover,.dropdown-menu>li>a:focus{
+	background-color:#222;
+}
+.dropdown-menu>.active>a,.dropdown-menu>.active>a:hover,.dropdown-menu>.active>a:focus{
+	background-color:#222;
+}
+.nav .open>a,.nav .open>a:hover,.nav .open>a:focus{
+	border-color:#222;
+}
+.nav-pills>li.active>a,.nav-pills>li.active>a:hover,.nav-pills>li.active>a:focus{
+	background-color:#222;
+}
+.navbar-inverse{
+	background-color:#222;
+	border-color:#222;
+}
+.pagination>li>a,.pagination>li>span{
+	color:#222;
+}
+.label-primary{
+	background-color:#222;
+}
+.badge{
+	background-color:#222;
+	color:#222;
+}
+
+a.thumbnail:hover,a.thumbnail:focus,a.thumbnail.active{
+	border-color:#222;
+}
+.progress-bar{
+	background-color:#222;
+}
+.panel-primary{
+	border-color:#222;
+}
+.panel-primary>.panel-heading{
+	background-color:#222;
+	border-color:#222;
+}
+.panel-primary>.panel-heading+.panel-collapse>.panel-body{
+	border-top-color:#222;
+}
+.panel-primary>.panel-heading .badge{
+	color:#222;
+}
+.panel-primary>.panel-footer+.panel-collapse>.panel-body{
+	border-bottom-color:#222;
+}
+
+.text-primary,.text-primary:hover{
+	color:#222;
+}
+.list-group-item.active,.list-group-item.active:hover,.list-group-item.active:focus{
+	;background-color:#222;
+}
+
+.alert-success {
+    color: white;
+    background-color: #3c763dd9;
+    border-color: #d6e9c6;
+	border-radius:5px;
+}
+
+.alert-danger {
+    color: white;
+    background-color: #ff0000b0;
+    border-color: #ebccd1;
+	border-radius:5px;
+}
+
+.decal {
+	padding-left:20px;
+}

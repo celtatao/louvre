@@ -1,0 +1,97 @@
+{% extends "MLBilletterieBundle::layout.html.twig" %}
+
+{% block title %}
+    Confirmation - {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    
+
+
+    <div class="container">
+
+        <h2 class ="text-center">Commande n°{{ commande.refCommande }}</h2>
+
+        {% if app.session.flashBag.has('info') %}
+            <div class="alert alert-danger">
+                <strong>Attention !</strong>
+                {% for msg in app.session.flashBag.get('info') %}
+                    {{ msg }}
+                {% endfor %}
+            </div>
+            <div>
+                <p>Pour retourner sur la page de paiement :</p>
+                <a href="{{ path('ml_billetterie_paiement',{'id' : commande.id }) }}" class="btn btn-info">Retour au paiement</a>
+                <p>Veuillez contacter le service billetterie du musée pour plus d'informations.</p>
+            </div>
+        {% endif %}
+
+        {% if app.session.flashBag.has('success') %}
+            <div class="alert alert-success">
+                <strong>Succès !</strong>
+                {% for msg in app.session.flashBag.get('success') %}
+                    {{ msg }}
+                {% endfor %}
+            </div>
+            <div>
+                <p>Un mail contenant vos billets vous a été tansmis.</p>
+                
+            </div>
+
+        {% endif %}
+        <div>
+            <h3>Récapitulatif de votre achat</h3>
+            
+            
+            <h3>Détail des billets valables pour le {{ commande.dateVisite |date("d/m/Y") }}.</h3>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-condensed">
+                <thead class="thead-default">
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Type</th>
+                    <th>Prix</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for tableauBillets in tableauBillets %}
+                    <tr scope="row">
+                        <td>{{ tableauBillets.nom }}</td>
+                        <td>{{ tableauBillets.prenom }}</td>
+                        <td>{{ tableauBillets.type }}</td>
+                        <td align="right">{{ tableauBillets.prix }} €</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr class="info">
+                    <td colspan="3" style="font-weight:bold">Total payé</td>
+                    <td align="right" style="font-weight:bold">{{ commande.total }} €</td>
+                </tr>
+                </tfoot>
+                
+            </table>
+        </div>
+            
+        <p><a href="{{ path('ml_billetterie_homepage') }}">
+                    <button class="btn btn-danger"><i class="glyphicon glyphicon-chevron-left"></i> Commander d'autres billets </button>
+                </a>
+            </p>
+    </div>
+
+    
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

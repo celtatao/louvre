@@ -1,0 +1,83 @@
+{# src/ML/BilletterieBundle/Resources/views/Billetterie/index.html.twig #}
+{% extends "MLBilletterieBundle::layout.html.twig" %}
+
+{% block title %}
+    Paiement - {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    
+
+    <div class="container" xmlns="http://www.w3.org/1999/html">
+        <h2 class ="text-center">Règlement via Stripe de votre commande {{ commande.refCommande }}</h2>
+         <div>
+            
+            <p>Valable uniquement pour la {{ commande.billetJour }} du {{ commande.dateVisite |date("d/m/Y") }}</p>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-condensed">
+                <thead class="thead-default">
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Type</th>
+                    <th>Prix</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for tableauBillets in tableauBillets %}
+                    <tr scope="row">
+                        <td>{{ tableauBillets.nom }}</td>
+                        <td>{{ tableauBillets.prenom }}</td>
+                        <td>{{ tableauBillets.type }}</td>
+                        <td align="right">{{ tableauBillets.prix }} €</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr class="info">
+                    <td colspan="3" style="font-weight:bold">Total</td>
+                    <td align="right" style="font-weight:bold">{{ commande.total }} €</td>
+                </tr>
+                </tfoot>
+                
+            </table>
+        </div>
+        <div>
+            
+            <p><a href="{{ path('ml_billetterie_homepage') }}">
+                    <button class="btn btn-danger"><i class="glyphicon glyphicon-chevron-left"></i> Modifier commande </button>
+                </a>
+            </p>
+            <p>Merci de rentrer vos informations de paiement pour finaliser la commande
+                (vous recevrez vos billets par courriel une fois le paiement finalisé) </p>
+        </div>
+        <div id="status">
+            <form action="{{ path('ml_billetterie_paiement',{'id' : commande.id }) }}" method="POST">
+                <script
+                        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="pk_test_Lw2vGDvVNQxGeSpsxTD9PRsm"
+                        data-amount="{{ commande.total*100 }}"
+                        data-name="Réservation de {{ commande.qteBillet }} billet(s)"
+                        data-description="Pour le {{ commande.dateVisite|date("d/m/y") }}"
+                        data-locale="auto"
+                        data-currency="eur">
+                </script>
+            </form>
+            <br/>
+        </div>
+    </div>
+    
+
+    
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

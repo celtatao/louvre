@@ -1,0 +1,23 @@
+services:
+    ml_billetterie.mlcommande:
+        class: ML\BilletterieBundle\Services\MLCommande
+        arguments:
+            - "@doctrine.orm.entity_manager"
+
+    ml_billetterie.mltabbillets:
+        class: ML\BilletterieBundle\Services\MLTabBillets
+        arguments:
+            - "@session"
+
+    ml_billetterie.mlstripe:
+        class: ML\BilletterieBundle\Services\MLStripe
+        arguments:
+            - "@session"
+            - "@doctrine.orm.entity_manager"
+            - "@ml_billetterie.mlmail"
+
+    ml_billetterie.mlmail:
+        class: ML\BilletterieBundle\Services\MLMail
+        arguments:
+            - "@mailer"
+            - "@templating"

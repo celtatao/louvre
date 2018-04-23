@@ -1,0 +1,261 @@
+{# src/ML/BilletterieBundle/Resources/views/Billetterie/index.html.twig #}
+{% extends "MLBilletterieBundle::layout.html.twig" %}
+
+{% block title %}
+    Billetterie - {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css"/>
+{% endblock %}
+
+{% block body %}
+    
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Horaires et tarifs</h4>
+                </div>
+                <div class="modal-body">
+                    
+                        <h3 >Horaires :</h3>
+                    
+                        <ul class="list-group">
+                          <li class="list-group-item">Lundi    : 09h00-18h00</li>
+                          <li class="list-group-item"><strong>Mardi    : Fermé</strong></li>
+                          <li class="list-group-item">Mercredi : 09h00-22h00</li>
+                          <li class="list-group-item">Jeudi    : 09h00-18h00</li>
+                          <li class="list-group-item">Vendredi : 09h00-22h00</li>
+                          <li class="list-group-item">Samedi   : 09h00-18h00</li>
+                          <li class="list-group-item">Dimanche : 09h00-18h00</li>
+                            <li class="list-group-item"><strong>Fèriés : 01/05 - 01/11 et 25/15</strong></li>
+                        </ul>
+                    
+  	                     <h3>Tarifs :</h3>
+  	                 
+                        <ul class="list-group">
+                          <li class="list-group-item">Moins de 4 ans    : gratuit</li>
+                          <li class="list-group-item">Tarif enfant de 4 à 12 ans   : 8 euros</li>
+                          <li class="list-group-item">Tarif normal de 12 à 60 ans : 16 euros</li>
+                          <li class="list-group-item">Tarif sénior au-delà de 60 ans  : 12 euros</li>
+                          <li class="list-group-item">Tarif réduit : 10 euros  - Pour les étudiants, employés du musée ou d’un service du Ministère de la Culture et les militaires (sur présentation d'un justificatif à l'entrée du musée.) </li>
+                          <li class="list-group-item">Demi-journée : Demi-tarif<br/> <strong>Ce tarif est imposé pour une réservation pour le jour même après 14h.</strong></li>
+                        </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div><!-- Modal -->
+
+    <!--Formulaire de sélection des billets-->
+    
+    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+    {# Les erreurs générales du formulaire. #}
+    {{ form_errors(form) }}
+
+    <div class="container">
+        <h1 class ="text-center">Bienvenue sur la billetterie du Musée du Louvre</h1>
+        {% if app.session.flashBag.has('info') %}
+        <div class="alert alert-info">
+            <strong>Attention !</strong>
+            {% for msg in app.session.flashBag.get('info') %}
+                {{ msg }}
+            {% endfor %}
+        </div>
+    {% endif %}
+        <br/>
+        <button type="button" class="btn btn-warning btn-lg btn-block" data-toggle="modal" data-target="#myModal">
+  Consultez les horaires et tarifs du musée.
+</button>
+            <!--<a class="btn btn-warning btn-lg btn-block" href="{{ path('ml_billetterie_info') }}">Horaires - Tarifs</a>-->
+        <br/>
+        <h4>Merci de renseigner les champs ci-dessous pour vérifier nos disponibilités d'accueil.</h4>
+        
+        {# Entrée de la date et du nombre de billets pour voir la dispo. #}
+        
+        
+        <div class="row">
+            <div class="form-group">
+                <div class="hidden_zone1">
+                {{ form_label(form.qteBillet, "Nombre de billets désirés", {'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+
+                {# Affichage des erreurs pour ce champ précis. #}
+                {{ form_errors(form.qteBillet) }}
+
+                <div class="col-sm-9 qteBillet">
+                    {# Génération de l'input. #}
+                    
+                    <div class="input-group input-append">
+                        <span class="input-group-addon add-on"><span class="fa fa-address-card"></span></span>
+                        {{ form_widget(form.qteBillet, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                {# Génération du label. #}
+                {{ form_label(form.dateVisite, "Date de visite souhaitée", {'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+                <div class="col-sm-9">
+                    {# Génération de l'input. #}
+                    <div class="input-group input-append date" id="datepicker">
+                        <span class="input-group-addon add-on"><span class="fa fa-calendar"></span></span>
+                        {{ form_widget(form.dateVisite, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    {{ form_errors(form.dateVisite) }}
+                </div>
+            </div>
+        </div>
+        
+        {# Affichage Mail - BilletJour et billets en fonction du nombre choisi #}
+
+        <div class="hidden_zone">
+            <div class="row">
+                
+                <h4 class="decal">Merci de renseigner les champs ci-dessous pour finaliser votre commande.</h4>
+            
+                <div class="form-group">
+                    {# Génération du label. #}
+                    {{ form_label(form.email, "Adresse mail", {'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+                    {{ form_errors(form.email) }}
+                    <div class="col-sm-9">
+                        {# Génération de l'input. #}
+                        <div class="input-group input-append">
+                            <span class="input-group-addon add-on"><span class="fa fa-envelope"></span></span>
+                            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <i>Cette adresse sera utilisée pour vous transmettre vos billets.</i>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group billetType">
+                    {# Génération du label. #}
+                    {{ form_label(form.billetJour, "Validité des tickets", {'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+                    {# Affichage des erreurs pour ce champ précis. #}
+                    {{ form_errors(form.billetJour) }}
+                    
+                    <div class="col-sm-9">
+                        {# Génération de l'input. #}
+                        <div class="input-group input-append">
+                            <span class="input-group-addon add-on"><span class="fa fa-calendar"></span></span>
+                        {{ form_widget(form.billetJour, {'attr': {'class': 'form-control'}}) }}
+                            
+                        </div>
+                        <i>Rappel - l'option journée ne peut être sélectionnée le jour même après 14h.</i>
+                    </div>
+                </div>
+            </div>
+            <br/><br/>
+                <h2 class ="text-center">Billets</h2>
+            <br/><br/>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-sm-10 billet">
+                        {{ form_widget(form.billets)}}
+                        
+                    </div>
+                </div>
+            </div>
+                <br/>
+                <p class ="text-center"><a title="Cette action entraine l'éffacement des billets." class="btn btn-danger" href="{{ path('ml_billetterie_homepage') }}">Modifier le nombre de billets</a><br/>
+                </p>
+                <br/>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_widget(form.save, {'attr': {'class':'btn btn-warning btn-lg btn-block'}}) }}
+                </div>
+            </div>
+            
+        </div> <!--Hidden zone-->
+    </div><!--Container-->
+    {{ form_end(form) }}
+    
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.fr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/language/fr_FR.js"></script>
+
+    <script type="text/javascript">
+        
+        $(function()
+        {
+        var aujourdhui = new Date();
+
+        //Configuration du calendrier 
+        $('.hidden_zone').hide();
+        $('#datepicker').datepicker(
+        {
+        autoclose : true,
+        language :"fr-FR",
+        datesDisabled : ["01/05/yyyy","01/11/yyyy","25/12/yyyy"],
+        daysOfWeekDisabled : [2],
+        startDate : aujourdhui
+        }
+        );
+
+        $('#datepicker').val();
+    
+        //Format date choisie
+        var dateSouhaitee = $('#datepicker').datepicker('getFormattedDate');
+        $('#datepicker').on('changeDate', function() {
+        var date = $('#ml_billetteriebundle_commande_dateVisite').val();
+        var qteBillet = $('#ml_billetteriebundle_commande_qteBillet').val();
+        dateVisite = date.split("/").reverse().join("-");
+    
+        
+        
+        //Vérification quantité de billets en BDD via dispo - retour réponse - Affichage Hidden Zone
+        
+        $.ajax({
+        url: "{{path('ml_billetterie_dispo')}}",
+        method: "post",
+        data : {dateVisite : dateVisite,
+                qteBillet : qteBillet}
+        }).done(function(msg)
+        {
+            dateChecking(msg);
+        });
+            $('#commande_dateVisite').val(dateSouhaitee);
+            $('#date_selected').text(
+                $('#datepicker').datepicker('getFormattedDate')
+            );
+        });
+
+        function dateChecking(msg) {
+            if($('.messageCheck'))
+            {
+                $('.messageCheck').remove();
+            }
+            $('#ml_billetteriebundle_commande_dateVisite').parent().parent().append(jQuery.parseJSON(msg['reponse']));
+            if(jQuery.parseJSON(msg['limit']))
+            {
+                $('.hidden_zone').hide();
+            }else{
+                $('.hidden_zone').show();
+                $('.hidden_zone1').hide();
+            }
+        }
+        });
+    </script>
+    
+    <script type="text/javascript" src="{{ asset('bundles/mlbilletterie/js/Billets.js') }}"></script>
+    
+{% endblock %}
+    
+
